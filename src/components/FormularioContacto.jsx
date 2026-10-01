@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function FormularioContacto() {
   
-  const correoDestino = "guadaburgos0205@gmail.com"
+  const correoDestino = "guadaburgos0502@gmail.com"
 
   const [datos, setDatos] = useState({
     nombre: "",
