@@ -1,6 +1,9 @@
 import { useState } from "react";
 
 function FormularioContacto() {
+  
+  const correoDestino = "guadaburgos0205@gmail.com"
+
   const [datos, setDatos] = useState({
     nombre: "",
     correo: "",
@@ -8,23 +11,19 @@ function FormularioContacto() {
   });
 
   const [errores, setErrores] = useState({});
-  const [aviso, setAviso] = useState("");
 
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setDatos({
-      ...datos,
+    setDatos((anteriores) => ({
+      ...anteriores,
       [name]: value,
-    });
+    }));
 
-    
     setErrores((anteriores) => ({
       ...anteriores,
       [name]: "",
     }));
-
-    setAviso("");
   }
 
   function validar() {
@@ -32,15 +31,18 @@ function FormularioContacto() {
     const nombre = datos.nombre.trim();
     const correo = datos.correo.trim();
 
+    // Validación del nombre y apellido.
     if (!nombre) {
       nuevosErrores.nombre = "Ingresá tu nombre y apellido.";
     } else if (!/^[\p{L}\p{M}\s'’-]+$/u.test(nombre)) {
       nuevosErrores.nombre =
         "El nombre y apellido no deben contener números ni símbolos como @.";
     } else if (nombre.split(/\s+/).length < 2) {
-      nuevosErrores.nombre = "Ingresá al menos un nombre y un apellido.";
+      nuevosErrores.nombre =
+        "Ingresá al menos un nombre y un apellido.";
     }
 
+    // Validación del correo electrónico.
     if (!correo) {
       nuevosErrores.correo = "Ingresá tu correo electrónico.";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
@@ -48,10 +50,12 @@ function FormularioContacto() {
         "Ingresá un correo válido, por ejemplo: nombre@gmail.com.";
     }
 
+    // Validación del mensaje.
     if (!datos.mensaje.trim()) {
       nuevosErrores.mensaje = "Escribí un mensaje.";
     } else if (datos.mensaje.length > 300) {
-      nuevosErrores.mensaje = "El mensaje no puede superar los 300 caracteres.";
+      nuevosErrores.mensaje =
+        "El mensaje no puede superar los 300 caracteres.";
     }
 
     return nuevosErrores;
@@ -62,22 +66,46 @@ function FormularioContacto() {
 
     const nuevosErrores = validar();
     setErrores(nuevosErrores);
-    setAviso("");
 
+    // Si hay errores, detenemos el envío.
     if (Object.keys(nuevosErrores).length > 0) {
       return;
     }
 
-    
-    setAviso(
-      "Los datos son válidos. El envío al correo todavía no está configurado."
-    );
+    // Si los datos son válidos, enviamos el formulario a FormSubmit.
+    event.currentTarget.submit();
   }
 
   return (
-    <form className="formulario-contacto" onSubmit={handleSubmit} noValidate>
+    <form
+      className="formulario-contacto"
+      action={`https://formsubmit.co/${correoDestino}`}
+      method="POST"
+      onSubmit={handleSubmit}
+      noValidate
+    >
+      {/* Configuración del correo que vamos a recibir. */}
+      <input
+        type="hidden"
+        name="_subject"
+        value="Nueva consulta desde mi sitio React"
+      />
+
+      <input
+        type="hidden"
+        name="_replyto"
+        value={datos.correo.trim()}
+      />
+
+      <input
+        type="hidden"
+        name="_template"
+        value="table"
+      />
+
       <div className="campo">
         <label htmlFor="nombre">Nombre y apellido</label>
+
         <input
           id="nombre"
           name="nombre"
@@ -88,7 +116,9 @@ function FormularioContacto() {
           onChange={handleChange}
           required
           aria-invalid={Boolean(errores.nombre)}
-          aria-describedby={errores.nombre ? "error-nombre" : undefined}
+          aria-describedby={
+            errores.nombre ? "error-nombre" : undefined
+          }
         />
 
         {errores.nombre && (
@@ -100,6 +130,7 @@ function FormularioContacto() {
 
       <div className="campo">
         <label htmlFor="correo">Correo electrónico</label>
+
         <input
           id="correo"
           name="correo"
@@ -110,7 +141,9 @@ function FormularioContacto() {
           onChange={handleChange}
           required
           aria-invalid={Boolean(errores.correo)}
-          aria-describedby={errores.correo ? "error-correo" : undefined}
+          aria-describedby={
+            errores.correo ? "error-correo" : undefined
+          }
         />
 
         {errores.correo && (
@@ -122,6 +155,7 @@ function FormularioContacto() {
 
       <div className="campo">
         <label htmlFor="mensaje">Mensaje</label>
+
         <textarea
           id="mensaje"
           name="mensaje"
@@ -152,12 +186,6 @@ function FormularioContacto() {
       <button type="submit" className="boton-enviar">
         Enviar mensaje
       </button>
-
-      {aviso && (
-        <p className="aviso-formulario" role="status">
-          {aviso}
-        </p>
-      )}
     </form>
   );
 }
