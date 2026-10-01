@@ -70,3 +70,101 @@ h1 {
   font-size: 36px;
   color: #701d3c;
 }
+
+.pagina-contacto {
+  width: 100%;
+  max-width: 560px;
+}
+
+.pagina-contacto h1 {
+  text-align: center;
+}
+
+.introduccion-contacto {
+  margin: 16px 0 28px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.formulario-contacto {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campo label {
+  font-weight: bold;
+}
+
+.campo input,
+.campo textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #b7a1aa;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #34242b;
+  font: inherit;
+}
+
+.campo textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.campo input:focus,
+.campo textarea:focus {
+  outline: 2px solid #701d3c;
+  outline-offset: 2px;
+}
+
+.campo [aria-invalid="true"] {
+  border: 2px solid #b42318;
+}
+
+.error {
+  margin: 0;
+  color: #b42318;
+  font-size: 14px;
+}
+
+.contador {
+  margin: 0;
+  text-align: right;
+  color: #68545d;
+  font-size: 14px;
+}
+
+.boton-enviar {
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #701d3c;
+  color: white;
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.boton-enviar:hover {
+  background-color: #923454;
+}
+
+.boton-enviar:focus-visible {
+  outline: 3px solid #701d3c;
+  outline-offset: 3px;
+}
+
+.aviso-formulario {
+  margin: 0;
+  padding: 14px;
+  border-radius: 8px;
+  background-color: #f7f3f4;
+  line-height: 1.5;
+}
